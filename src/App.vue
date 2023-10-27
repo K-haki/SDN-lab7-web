@@ -1,26 +1,58 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <NConfigProvider
+    :theme="darkTheme"
+    :theme-overrides="themeOverrides"
+    class="overflow-y-auto font-mono"
+  >
+    <div class="h-screen font-major bg-bottom flex text-white text-base">
+      <RouterView class="flex-1 h-full overflow-hidden" />
+    </div>
+  </NConfigProvider>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import { ref } from "vue";
+import { NConfigProvider, darkTheme } from "naive-ui";
+import { primaryColor, secondaryColor } from "./color";
+/**
+ * @type import('naive-ui').GlobalThemeOverrides
+ */
+const themeOverrides = {
+  common: {
+    primaryColor,
+    primaryColorHover: "#BFE8FFFF",
+    primaryColorPressed: "#4190BCFF",
+    primaryColorSuppl: "#296E95FF",
+  },
+  Table: {
+    tdColor: "rgba(0,0,0,0)",
+    thColor: secondaryColor,
+  },
+  DataTable: {
+    tdColor: "rgba(0,0,0,0)",
+    thColor: secondaryColor,
+    tdColorHover: "rgb(133,199,236,0.3)",
+  },
+};
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+const navs = ref([
+  {
+    path: "/",
+    label: "SDN拓扑前端",
+    icon: '<i class="ri-brain-line text-3xl"></i>',
+  },
+  
+]);
+
+const closed = ref(false);
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+a.router-link-exact-active {
+  @apply bg-gradient-to-br from-primary to-secondary font-bold text-active;
+}
+
+.ab-center {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
 }
 </style>
